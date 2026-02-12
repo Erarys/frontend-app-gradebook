@@ -39,6 +39,9 @@ export const useGradebookTableData = () => {
     [Headings.username]: (
       <Fields.Username username={entry.username} userKey={entry.external_user_key} />
     ),
+    [Headings.profileUsername]: (
+      <Fields.Text value={entry.profile_username || ''} />
+    ),
     [Headings.email]: (<Fields.Text value={entry.email} />),
     [Headings.totalGrade]: `${roundGrade(entry.percent * 100)}${getLocalizedPercentSign()}`,
     ...entry.section_breakdown.reduce((acc, subsection) => ({
