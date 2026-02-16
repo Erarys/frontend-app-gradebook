@@ -40,7 +40,7 @@ export const useGradebookTableData = () => {
       <Fields.Username username={entry.username} userKey={entry.external_user_key} />
     ),
     [Headings.profileUsername]: (
-      <Fields.Text value={entry.profile_username || ''} />
+      <Fields.Text value={entry.profile_name || ''} />
     ),
     [Headings.email]: (<Fields.Text value={entry.email} />),
     [Headings.totalGrade]: `${roundGrade(entry.percent * 100)}${getLocalizedPercentSign()}`,
