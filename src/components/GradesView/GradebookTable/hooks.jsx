@@ -39,7 +39,7 @@ export const useGradebookTableData = () => {
     [Headings.username]: (
       <Fields.Username username={entry.username} userKey={entry.external_user_key} />
     ),
-    [Headings.profileUsername]: (
+    [Headings.profileName]: (
       <Fields.Text value={entry.profile_name || ''} />
     ),
     [Headings.email]: (<Fields.Text value={entry.email} />),
