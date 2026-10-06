@@ -1,12 +1,13 @@
 import { useIntl } from '@edx/frontend-platform/i18n';
 
 import { actions, selectors, thunkActions } from 'data/redux/hooks';
+import normalizeLearnerSearch from 'utils/normalizeLearnerSearch';
 
 import messages from './messages';
 
 /**
  * Controls for filtering the GradebookTable. Contains the "Edit Filters" button for opening the filter drawer
- * as well as the search box for searching by username/email.
+ * as well as the search box for searching by learner identity fragments.
  */
 export const useSearchControlsData = () => {
   const { formatMessage } = useIntl();
@@ -15,17 +16,18 @@ export const useSearchControlsData = () => {
   const setSearchValue = actions.app.useSetSearchValue();
 
   const onBlur = (e) => {
-    setSearchValue(e.target.value);
+    setSearchValue(normalizeLearnerSearch(e.target.value));
   };
 
   const onClear = () => {
     setSearchValue('');
-    fetchGrades();
+    fetchGrades({ options: { searchText: '' } });
   };
 
   const onSubmit = (newValue) => {
-    setSearchValue(newValue);
-    fetchGrades();
+    const searchText = normalizeLearnerSearch(newValue);
+    setSearchValue(searchText);
+    fetchGrades({ options: { searchText } });
   };
 
   return {

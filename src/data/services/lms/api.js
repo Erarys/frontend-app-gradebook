@@ -1,4 +1,5 @@
 import { StrictDict } from 'utils';
+import normalizeLearnerSearch from 'utils/normalizeLearnerSearch';
 
 import urls, {
   gradeCsvUrl,
@@ -35,7 +36,7 @@ const gradebookData = (searchText, cohort, track, options = {}) => {
   }
   const queryParams = {
     [paramKeys.pageSize]: pageSize,
-    [paramKeys.userContains]: searchText,
+    [paramKeys.userContains]: normalizeLearnerSearch(searchText) || null,
     [paramKeys.cohortId]: cohort,
     [paramKeys.enrollmentMode]: track,
     [paramKeys.courseGradeMax]: options.courseGradeMax,

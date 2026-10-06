@@ -46,7 +46,12 @@ describe('useSearchControlsData', () => {
     test('onSubmit sets search value and fetches grades', () => {
       out.onSubmit(testValue);
       expect(setSearchValue).toHaveBeenCalledWith(testValue);
-      expect(fetchGrades).toHaveBeenCalled();
+      expect(fetchGrades).toHaveBeenCalledWith({ options: { searchText: testValue } });
+    });
+    test('onSubmit searches with normalized fragments even before Redux state updates', () => {
+      out.onSubmit('  Әлихан\u00a0\u00a0OPEN.EDU\t');
+      expect(setSearchValue).toHaveBeenCalledWith('Әлихан OPEN.EDU');
+      expect(fetchGrades).toHaveBeenCalledWith({ options: { searchText: 'Әлихан OPEN.EDU' } });
     });
     test('onBlur sets search value to event target', () => {
       out.onBlur({ target: { value: testValue } });
@@ -56,7 +61,7 @@ describe('useSearchControlsData', () => {
     test('onClear clears search value and fetches grades', () => {
       out.onClear();
       expect(setSearchValue).toHaveBeenCalledWith('');
-      expect(fetchGrades).toHaveBeenCalled();
+      expect(fetchGrades).toHaveBeenCalledWith({ options: { searchText: '' } });
     });
     it('forwards searchValue from redux', () => {
       expect(out.searchValue).toEqual(searchValue);

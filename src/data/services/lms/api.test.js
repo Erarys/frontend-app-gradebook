@@ -73,6 +73,19 @@ describe('lms service api', () => {
         assignmentGradeMin: 5,
       };
 
+      test.each([
+        ['  Әлихан\u00a0\u00a0OPEN.EDU\t', 'Әлихан OPEN.EDU'],
+        [' \t ', null],
+        [null, null],
+      ])('sends normalized search fragments for %p', (input, expected) => {
+        mockGet(resolveFn);
+        api.fetch.gradebookData(input, cohort, track);
+        expect(utils.stringifyUrl).toHaveBeenLastCalledWith(
+          urls.getGradebookUrl(),
+          expect.objectContaining({ [paramKeys.userContains]: expected }),
+        );
+      });
+
       it('throws an error if either assignmentGrade limit is set, but no assignment', () => {
         mockGet(resolveFn);
         expect(() => {
